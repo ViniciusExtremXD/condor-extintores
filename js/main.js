@@ -116,8 +116,6 @@
   }
 
   dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i, true)));
-  document.getElementById('heroPrev').addEventListener('click', () => goTo(current - 1, true));
-  document.getElementById('heroNext').addEventListener('click', () => goTo(current + 1, true));
 
   // Botão pausar/retomar (WCAG 2.2.2 — visível também no touch/teclado)
   const pauseBtn = document.getElementById('heroPause');
