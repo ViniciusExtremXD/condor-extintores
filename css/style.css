@@ -46,7 +46,7 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
 body {
   font-family: var(--font-body);
   color: var(--navy-800);
@@ -366,7 +366,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 @keyframes dotFill { from { width: 0; } to { width: 100%; } }
 
 /* Em slide claro, a UI precisa escurecer */
-.hero.on-light .hero-dot { color: rgba(15, 23, 42, 0.45); }
+.hero.on-light .hero-dot { color: rgba(15, 23, 42, 0.68); }
 .hero.on-light .hero-dot.is-active { color: var(--navy); }
 .hero.on-light .hero-dot b { background: rgba(15, 23, 42, 0.15); }
 .hero.on-light .hero-arrow { color: var(--navy); border-color: rgba(15, 23, 42, 0.2); }
@@ -384,6 +384,12 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 }
 .hero-arrow svg { width: 20px; height: 20px; }
 .hero-arrow:hover { background: var(--green); border-color: var(--green); color: #fff; transform: scale(1.08); }
+
+.hero-pause[hidden] { display: none; }
+.hero-pause svg { width: 16px; height: 16px; }
+.hero-pause .ic-play { display: none; }
+.hero-pause.is-paused .ic-pause { display: none; }
+.hero-pause.is-paused .ic-play { display: block; }
 
 .hero-scrollhint {
   position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%);
@@ -794,6 +800,8 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .field.has-error input, .field.has-error select { border-color: var(--red); box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1); }
 .form-submit { width: 100%; margin-top: 6px; }
 .form-hint { font-size: 12.5px; color: var(--slate-500); text-align: center; margin-top: 14px; }
+.form-error { font-size: 13.5px; font-weight: 600; color: var(--red); text-align: center; margin: 2px 0 12px; }
+.form-error[hidden] { display: none; }
 
 .contato-info { display: flex; flex-direction: column; gap: 22px; }
 .info-card {
@@ -872,7 +880,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 22px 0;
-  font-size: 13px; color: #64748b;
+  font-size: 13px; color: #94a3b8;
   text-align: center;
 }
 
@@ -971,7 +979,8 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   .slide-ctas .btn { padding: 13px 20px; font-size: 14px; }
   .hero-ui { bottom: 22px; }
   .hero-dot b { width: 44px; }
-  .hero-arrows { display: none; }
+  /* No touch as setas somem, mas o botão de pausa (WCAG 2.2.2) permanece */
+  #heroPrev, #heroNext { display: none; }
 
   .marquee-track { gap: 40px; }
   .marquee-track img { height: 34px; }

@@ -119,7 +119,7 @@
     <section class="hero" id="home">
       <canvas id="embers" class="hero-embers" aria-hidden="true"></canvas>
 
-      <div class="hero-slider" id="heroSlider">
+      <div class="hero-slider" id="heroSlider" role="group" aria-roledescription="carrossel" aria-label="Destaques da Condor">
         <!-- Slide 1 -->
         <article class="slide slide-dark is-active">
           <div class="slide-bg">
@@ -192,12 +192,16 @@
 
       <!-- UI do slider -->
       <div class="hero-ui container">
-        <div class="hero-dots" id="heroDots" role="tablist" aria-label="Slides">
-          <button class="hero-dot is-active" role="tab" aria-label="Slide 1" aria-selected="true"><i>01</i><b><s></s></b></button>
-          <button class="hero-dot" role="tab" aria-label="Slide 2" aria-selected="false"><i>02</i><b><s></s></b></button>
-          <button class="hero-dot" role="tab" aria-label="Slide 3" aria-selected="false"><i>03</i><b><s></s></b></button>
+        <div class="hero-dots" id="heroDots" aria-label="Escolher slide">
+          <button class="hero-dot is-active" aria-label="Ir para o slide 1" aria-current="true"><i>01</i><b><s></s></b></button>
+          <button class="hero-dot" aria-label="Ir para o slide 2"><i>02</i><b><s></s></b></button>
+          <button class="hero-dot" aria-label="Ir para o slide 3"><i>03</i><b><s></s></b></button>
         </div>
         <div class="hero-arrows">
+          <button class="hero-arrow hero-pause" id="heroPause" aria-label="Pausar rotação automática" aria-pressed="false">
+            <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg>
+            <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10-6.5z"/></svg>
+          </button>
           <button class="hero-arrow" id="heroPrev" aria-label="Slide anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
           <button class="hero-arrow" id="heroNext" aria-label="Próximo slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
@@ -284,7 +288,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
             </div>
             <h3>Laudos e ARTs oficiais</h3>
-            <p>Relatórios, certificados e Anotações de Responsabilidade Técnica que garantem a regularização jurídica completa.</p>
+            <p>Relatórios, certificados e Anotações de Responsabilidade Técnica que dão respaldo técnico e documental à regularização da sua edificação.</p>
           </article>
         </div>
       </div>
@@ -307,7 +311,7 @@
                 <div class="avcb-tipo glow-card">
                   <b>CLCB</b>
                   <span>Certificado de Licença</span>
-                  <p>Para edificações de menor porte e baixo risco — em geral até 750&nbsp;m² ou 3 pavimentos. Processo simplificado e mais rápido.</p>
+                  <p>Para edificações de menor porte e baixo risco — em geral com área de até 750&nbsp;m² e altura de até 12&nbsp;m. Processo simplificado e mais rápido.</p>
                 </div>
                 <div class="avcb-tipo glow-card">
                   <b>AVCB</b>
@@ -453,21 +457,21 @@
               <span>De quanto em quanto tempo devo recarregar os extintores?</span>
               <i class="faq-icon"></i>
             </summary>
-            <div class="faq-body"><p>A recarga é obrigatória <strong>a cada 12 meses</strong> ou imediatamente após qualquer uso, mesmo parcial. Além disso, o teste hidrostático do cilindro deve ser feito a cada 5 anos. A Condor controla esses vencimentos para você e avisa quando estiver perto do prazo.</p></div>
+            <div class="faq-body"><p>A recarga é obrigatória <strong>a cada 12 meses</strong> ou imediatamente após qualquer uso, mesmo parcial. Além disso, o teste hidrostático do cilindro deve ser feito a cada 5 anos. Consulte a Condor para conferir os vencimentos dos seus equipamentos e programar tudo com antecedência.</p></div>
           </details>
           <details class="faq-item reveal">
             <summary>
               <span>Qual a diferença entre AVCB e CLCB para o meu comércio?</span>
               <i class="faq-icon"></i>
             </summary>
-            <div class="faq-body"><p>O <strong>CLCB</strong> atende edificações de menor porte e baixo risco (em geral até 750&nbsp;m² ou 3 pavimentos), com processo simplificado. O <strong>AVCB</strong> é exigido para edificações maiores ou de maior risco e inclui vistoria presencial do Corpo de Bombeiros. Nossa equipe avalia seu imóvel e indica o caminho mais rápido e econômico.</p></div>
+            <div class="faq-body"><p>O <strong>CLCB</strong> atende edificações de menor porte e baixo risco (em geral com área de até 750&nbsp;m² e altura de até 12&nbsp;m), com processo simplificado. O <strong>AVCB</strong> é exigido para edificações maiores ou de maior risco e inclui vistoria presencial do Corpo de Bombeiros. Nossa equipe avalia seu imóvel e indica o caminho mais rápido e econômico.</p></div>
           </details>
           <details class="faq-item reveal">
             <summary>
               <span>Como sei qual o extintor correto para minha empresa?</span>
               <i class="faq-icon"></i>
             </summary>
-            <div class="faq-body"><p>Depende do risco predominante: <strong>Água</strong> para materiais sólidos (classe A), <strong>Pó BC/ABC</strong> para líquidos inflamáveis e uso geral, <strong>CO₂</strong> para equipamentos elétricos e eletrônicos, e <strong>Classe D</strong> para metais combustíveis. Fazemos o dimensionamento gratuito conforme a norma no seu endereço.</p></div>
+            <div class="faq-body"><p>Depende do risco predominante: <strong>Água</strong> para materiais sólidos (classe A), <strong>Pó BC/ABC</strong> para líquidos inflamáveis e uso geral, <strong>CO₂</strong> para equipamentos elétricos e eletrônicos, e <strong>Classe D</strong> para metais combustíveis. Fazemos o dimensionamento conforme a norma — peça um orçamento sem compromisso.</p></div>
           </details>
           <details class="faq-item reveal">
             <summary>
@@ -523,6 +527,7 @@
               <label for="fMensagem">Mensagem</label>
               <textarea id="fMensagem" name="mensagem" rows="4" placeholder="Conte rapidamente o que você precisa (quantidade de extintores, metragem do imóvel, prazo…)"></textarea>
             </div>
+            <p class="form-error" id="formError" role="alert" hidden>Preencha os campos destacados para continuar.</p>
             <button type="submit" class="btn btn-primary btn-lg btn-magnetic form-submit">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.074-.149-.668-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.064 2.875 1.213 3.074.148.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.57-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
               <span>Enviar pelo WhatsApp</span>

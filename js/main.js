@@ -4,8 +4,11 @@
 (function () {
   'use strict';
 
-  const motionOff = new URLSearchParams(location.search).get('motion') === '0';
-  const prefersReducedMotion = motionOff || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // ?motion=0 força motion desligado; ?motion=1 força ligado (ambos para QA)
+  const motionParam = new URLSearchParams(location.search).get('motion');
+  const motionOff = motionParam === '0';
+  const prefersReducedMotion = motionOff ||
+    (motionParam !== '1' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   if (motionOff) document.documentElement.classList.add('motion-off');
   const finePointer = window.matchMedia('(pointer: fine)').matches;
 
@@ -24,9 +27,12 @@
 
   /* ---------- Scroll spy ---------- */
   const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+  // Ordena por posição no documento: #licenciamento fica dentro de #servicos,
+  // e a ordem do menu não bate com a ordem das seções na página.
   const spyTargets = navLinks
     .map(link => document.getElementById(link.getAttribute('href').slice(1)))
-    .filter(Boolean);
+    .filter(Boolean)
+    .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1);
 
   function updateSpy() {
     const probe = window.scrollY + 160;
@@ -75,49 +81,95 @@
     if (next === current && fromUser) return;
     slides[current].classList.remove('is-active');
     dots[current].classList.remove('is-active');
-    dots[current].setAttribute('aria-selected', 'false');
+    dots[current].removeAttribute('aria-current');
     current = next;
     slides[current].classList.add('is-active');
     dots[current].classList.add('is-active');
-    dots[current].setAttribute('aria-selected', 'true');
+    dots[current].setAttribute('aria-current', 'true');
     restartDot(dots[current]);
     hero.classList.toggle('on-light', slides[current].classList.contains('slide-light'));
     schedule();
   }
 
+  // Estados de pausa: botão do usuário (persistente), hover, foco e aba oculta
+  let userPaused = false;
+  let hoverPaused = false;
+  let focusPaused = false;
+
   function schedule() {
     clearTimeout(timer);
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || userPaused || hoverPaused || focusPaused) return;
     timer = setTimeout(() => goTo(current + 1), SLIDE_MS);
+  }
+
+  function pauseAuto() {
+    clearTimeout(timer);
+    hero.classList.add('is-paused');
+  }
+
+  // Reinicia a barra do dot junto com o timer para não dessincronizar
+  function resumeAuto() {
+    if (userPaused || hoverPaused || focusPaused) return;
+    hero.classList.remove('is-paused');
+    restartDot(dots[current]);
+    schedule();
   }
 
   dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i, true)));
   document.getElementById('heroPrev').addEventListener('click', () => goTo(current - 1, true));
   document.getElementById('heroNext').addEventListener('click', () => goTo(current + 1, true));
 
-  // Pausa no hover (desktop) e quando a aba perde o foco
-  if (finePointer) {
-    hero.addEventListener('mouseenter', () => { hero.classList.add('is-paused'); clearTimeout(timer); });
-    hero.addEventListener('mouseleave', () => { hero.classList.remove('is-paused'); schedule(); });
+  // Botão pausar/retomar (WCAG 2.2.2 — visível também no touch/teclado)
+  const pauseBtn = document.getElementById('heroPause');
+  if (prefersReducedMotion) {
+    pauseBtn.hidden = true;
+  } else {
+    pauseBtn.addEventListener('click', () => {
+      userPaused = !userPaused;
+      pauseBtn.classList.toggle('is-paused', userPaused);
+      pauseBtn.setAttribute('aria-pressed', String(userPaused));
+      pauseBtn.setAttribute('aria-label', userPaused ? 'Retomar rotação automática' : 'Pausar rotação automática');
+      if (userPaused) pauseAuto(); else resumeAuto();
+    });
   }
+
+  // Pausa no hover (desktop), no foco via teclado e quando a aba perde o foco
+  if (finePointer) {
+    hero.addEventListener('mouseenter', () => { hoverPaused = true; pauseAuto(); });
+    hero.addEventListener('mouseleave', () => { hoverPaused = false; resumeAuto(); });
+  }
+  hero.addEventListener('focusin', () => { focusPaused = true; pauseAuto(); });
+  hero.addEventListener('focusout', e => {
+    if (hero.contains(e.relatedTarget)) return;
+    focusPaused = false;
+    resumeAuto();
+  });
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { clearTimeout(timer); } else { schedule(); }
+    if (document.hidden) pauseAuto(); else resumeAuto();
   });
 
-  // Swipe no mobile
-  let touchX = null;
-  hero.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  // Swipe no mobile (só troca slide se o gesto for mais horizontal que vertical)
+  let touchX = null, touchY = null;
+  hero.addEventListener('touchstart', e => {
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
   hero.addEventListener('touchend', e => {
     if (touchX === null) return;
     const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 46) goTo(current + (dx < 0 ? 1 : -1), true);
-    touchX = null;
+    const dy = e.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) > 46 && Math.abs(dx) > Math.abs(dy)) goTo(current + (dx < 0 ? 1 : -1), true);
+    touchX = touchY = null;
   }, { passive: true });
 
-  // Teclado
+  // Teclado — ignora campos de formulário e só age com o hero na tela
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') goTo(current - 1, true);
-    if (e.key === 'ArrowRight') goTo(current + 1, true);
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const t = e.target;
+    if (t instanceof Element && (t.closest('input, textarea, select') || t.isContentEditable)) return;
+    const r = hero.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return;
+    goTo(current + (e.key === 'ArrowLeft' ? -1 : 1), true);
   });
 
   schedule();
@@ -179,38 +231,64 @@
   const marquee = document.querySelector('.marquee');
   if (marquee) {
     const track = marquee.querySelector('.marquee-track');
-    track.innerHTML += track.innerHTML; // duplica para loop contínuo
     const speed = prefersReducedMotion ? 0 : parseFloat(marquee.dataset.speed || '0.6');
-    let offset = 0;
-    let paused = false;
 
-    marquee.addEventListener('mouseenter', () => { paused = true; });
-    marquee.addEventListener('mouseleave', () => { paused = false; });
+    // Com reduced motion o marquee fica estático: sem clones, sem rAF
+    if (speed) {
+      // Duplica para loop contínuo; clones ficam fora da árvore de acessibilidade
+      Array.from(track.children).forEach(node => {
+        const clone = node.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        if (clone.tagName === 'IMG') clone.alt = '';
+        track.appendChild(clone);
+      });
 
-    function loop() {
-      if (!paused && speed) {
-        offset -= speed;
-        const half = track.scrollWidth / 2;
-        if (-offset >= half) offset += half;
-        track.style.transform = `translateX(${offset}px)`;
+      let offset = 0;
+      let paused = false;
+      let raf = null;
+
+      marquee.addEventListener('mouseenter', () => { paused = true; });
+      marquee.addEventListener('mouseleave', () => { paused = false; });
+
+      function loop() {
+        if (raf === null) return;
+        if (!paused) {
+          offset -= speed;
+          const half = track.scrollWidth / 2;
+          if (-offset >= half) offset += half;
+          track.style.transform = `translateX(${offset}px)`;
+        }
+        raf = requestAnimationFrame(loop);
       }
-      requestAnimationFrame(loop);
+
+      // Só anima com a faixa visível
+      new IntersectionObserver(entries => {
+        const inView = entries[0].isIntersecting;
+        if (inView && raf === null) { raf = requestAnimationFrame(loop); }
+        if (!inView && raf !== null) { cancelAnimationFrame(raf); raf = null; }
+      }, { threshold: 0 }).observe(marquee);
     }
-    requestAnimationFrame(loop);
   }
 
   /* ---------- Scroll reveal (com stagger) ---------- */
+  // O stagger é aplicado via setTimeout (e não transition-delay) para não
+  // atrasar as transições de hover dos cards depois do reveal.
   const revealObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
+      const delay = prefersReducedMotion ? 0 : parseInt(entry.target.dataset.revealDelay || '0', 10);
+      if (delay) {
+        setTimeout(() => entry.target.classList.add('is-visible'), delay);
+      } else {
+        entry.target.classList.add('is-visible');
+      }
       revealObserver.unobserve(entry.target);
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.stagger').forEach(group => {
     Array.from(group.querySelectorAll('.reveal')).forEach((el, i) => {
-      el.style.setProperty('--reveal-delay', (i * 0.09) + 's');
+      el.dataset.revealDelay = String(i * 90);
     });
   });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
@@ -292,18 +370,30 @@
   const form = document.getElementById('quoteForm');
   const WHATS = '5519974042095';
 
+  const formError = document.getElementById('formError');
+
   form.addEventListener('submit', e => {
     e.preventDefault();
-    let valid = true;
+    let firstInvalid = null;
 
     ['fNome', 'fTelefone', 'fServico'].forEach(id => {
       const input = document.getElementById(id);
       const field = input.closest('.field');
       const ok = input.value.trim() !== '';
       field.classList.toggle('has-error', !ok);
-      if (!ok) valid = false;
+      if (!ok) {
+        input.setAttribute('aria-invalid', 'true');
+        if (!firstInvalid) firstInvalid = input;
+      } else {
+        input.removeAttribute('aria-invalid');
+      }
     });
-    if (!valid) return;
+    if (firstInvalid) {
+      formError.hidden = false;
+      firstInvalid.focus();
+      return;
+    }
+    formError.hidden = true;
 
     const nome = document.getElementById('fNome').value.trim();
     const tel = document.getElementById('fTelefone').value.trim();
@@ -325,7 +415,11 @@
   });
 
   form.querySelectorAll('input, select, textarea').forEach(input => {
-    input.addEventListener('input', () => input.closest('.field').classList.remove('has-error'));
+    input.addEventListener('input', () => {
+      input.removeAttribute('aria-invalid');
+      input.closest('.field').classList.remove('has-error');
+      if (!form.querySelector('.has-error')) formError.hidden = true;
+    });
   });
 
   /* ---------- Ano no rodapé ---------- */

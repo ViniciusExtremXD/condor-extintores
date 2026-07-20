@@ -8,3 +8,6 @@ shots/
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# Tooling local do Claude Code
+.claude/
