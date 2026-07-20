@@ -1,0 +1,7 @@
+# Remover do gitignore apenas no go-live do domínio (ver README)
+CNAME
+
+# SO / editor
+Thumbs.db
+.DS_Store
+desktop.ini
