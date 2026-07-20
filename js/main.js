@@ -4,7 +4,9 @@
 (function () {
   'use strict';
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motionOff = new URLSearchParams(location.search).get('motion') === '0';
+  const prefersReducedMotion = motionOff || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (motionOff) document.documentElement.classList.add('motion-off');
   const finePointer = window.matchMedia('(pointer: fine)').matches;
 
   /* ---------- Header: estado de scroll + barra de progresso ---------- */

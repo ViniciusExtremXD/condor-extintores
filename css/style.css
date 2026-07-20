@@ -1013,3 +1013,15 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   .slide-kicker, .slide-text, .slide-ctas { opacity: 1; transform: none; }
   .hero-embers { display: none; }
 }
+
+/* ?motion=0 — modo estático para screenshots/QA (mesmas regras acima) */
+.motion-off *, .motion-off *::before, .motion-off *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+.motion-off { scroll-behavior: auto; }
+.motion-off .reveal { opacity: 1; transform: none; }
+.motion-off .h-line > span { transform: none; }
+.motion-off .slide-kicker, .motion-off .slide-text, .motion-off .slide-ctas { opacity: 1; transform: none; }
+.motion-off .hero-embers { display: none; }
