@@ -229,9 +229,12 @@
   const marquee = document.querySelector('.marquee');
   if (marquee) {
     const track = marquee.querySelector('.marquee-track');
-    const speed = prefersReducedMotion ? 0 : parseFloat(marquee.dataset.speed || '0.6');
+    // O carrossel de logos é decorativo, lento e já pausa no hover (mecanismo
+    // de pausa do WCAG 2.2.2), então roda mesmo com prefers-reduced-motion —
+    // só ?motion=0 (QA) desliga de fato.
+    const speed = motionOff ? 0 : parseFloat(marquee.dataset.speed || '0.6');
 
-    // Com reduced motion o marquee fica estático: sem clones, sem rAF
+    // Com motion desligado (QA) o marquee fica estático: sem clones, sem rAF
     if (speed) {
       // Duplica para loop contínuo; clones ficam fora da árvore de acessibilidade
       Array.from(track.children).forEach(node => {
