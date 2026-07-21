@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // Sempre abre no topo: recarregar (F5) ou voltar não deve manter a
+    // rolagem antiga. Roda antes da 1ª pintura, então não há "pulo" visível
+    // — é mais suave do que corrigir depois de já ter aparecido errado.
+    // Links com #âncora continuam indo direto para a seção pedida.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    if (!location.hash) window.scrollTo(0, 0);
+  </script>
   <title>Extintores Condor | Venda e Recarga de Extintores, AVCB e CLCB em Campinas – SP</title>
   <meta name="description" content="Há mais de 30 anos protegendo empresas em Campinas e todo o Estado de São Paulo. Venda, recarga e manutenção de extintores certificados Inmetro, teste hidrostático, AVCB, CLCB, sinalização e hidrantes.">
   <link rel="canonical" href="https://www.extintorescondor.com.br/">

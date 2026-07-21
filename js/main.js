@@ -4,6 +4,12 @@
 (function () {
   'use strict';
 
+  // Reforço do "sempre abre no topo" para quando o navegador restaura a
+  // página do cache (voltar/avançar) sem reexecutar o script inline do <head>.
+  window.addEventListener('pageshow', () => {
+    if (!location.hash) window.scrollTo(0, 0);
+  });
+
   // ?motion=0 força motion desligado; ?motion=1 força ligado (ambos para QA)
   const motionParam = new URLSearchParams(location.search).get('motion');
   const motionOff = motionParam === '0';
