@@ -22,9 +22,16 @@
   const header = document.getElementById('header');
   const progress = document.getElementById('scrollProgress');
 
+  // Histerese: liga em 40px e só desliga abaixo de 14px. Um único limiar
+  // (ex.: y > 10) faz a classe ligar/desligar em rajada quando o scroll
+  // oscila perto do valor — e como a altura do header tem transição, isso
+  // aparecia como o header "expandindo e encolhendo" sem parar.
+  let headerScrolled = false;
   function onScroll() {
     const y = window.scrollY;
-    header.classList.toggle('is-scrolled', y > 10);
+    if (!headerScrolled && y > 40) headerScrolled = true;
+    else if (headerScrolled && y < 14) headerScrolled = false;
+    header.classList.toggle('is-scrolled', headerScrolled);
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.width = (max > 0 ? (y / max) * 100 : 0) + '%';
     updateSpy();
@@ -177,6 +184,25 @@
   });
 
   schedule();
+
+  // O 1º slide já nasce com is-active no HTML (pra funcionar sem JS), então
+  // a transição de entrada (crossfade + leve escala) nunca disparava nele —
+  // só nas trocas seguintes via goTo(). Força o estado "antes" via inline
+  // style e libera em dois frames seguintes pra tocar a mesma transição
+  // também na primeira carga da página.
+  if (!prefersReducedMotion) {
+    const firstSlide = slides[current];
+    firstSlide.style.transition = 'none';
+    firstSlide.style.opacity = '0';
+    firstSlide.style.transform = 'scale(1.035)';
+    requestAnimationFrame(() => {
+      firstSlide.style.transition = '';
+      requestAnimationFrame(() => {
+        firstSlide.style.opacity = '';
+        firstSlide.style.transform = '';
+      });
+    });
+  }
 
   /* ---------- Brasas (partículas) no hero ---------- */
   const canvas = document.getElementById('embers');
