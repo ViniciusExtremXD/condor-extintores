@@ -938,43 +938,50 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 
 .cnpj { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--slate-200); font-size: 13px; color: var(--slate-500); line-height: 1.5; }
 
-.map-card {
-  background: #fff;
-  border: 1px solid var(--slate-200);
+/* Faixa horizontal do mapa — ocupa toda a largura abaixo do formulário/contato,
+   com o link "Como chegar" flutuando como pílula de vidro sobre o mapa. */
+.map-band {
+  position: relative;
+  margin-top: 26px;
+  height: 340px;
   border-radius: var(--radius);
   overflow: hidden;
+  border: 1px solid var(--slate-200);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, border-color 0.4s ease;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
-.map-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(0, 135, 68, 0.35); }
-
-.map-embed {
-  position: relative;
-  height: 190px;
-  background: var(--slate-100);
-}
-.map-embed iframe {
+.map-band:hover { box-shadow: var(--shadow-lg); border-color: rgba(0, 135, 68, 0.35); }
+.map-band-embed {
   position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
-  filter: grayscale(0.2) contrast(1.04);
-  transition: filter 0.4s ease;
+  filter: grayscale(0.25) contrast(1.04);
+  transition: filter 0.5s ease;
 }
-.map-card:hover .map-embed iframe { filter: grayscale(0); }
+.map-band:hover .map-band-embed { filter: grayscale(0); }
 
-.map-card-link {
-  display: flex; align-items: center; gap: 16px;
-  padding: 18px 24px;
-  border-top: 1px solid var(--slate-100);
+.map-band-link {
+  position: absolute; left: 20px; bottom: 20px; z-index: 1;
+  display: flex; align-items: center; gap: 14px;
+  max-width: calc(100% - 40px);
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  backdrop-filter: blur(10px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s ease, background 0.35s ease;
 }
+.map-band-link:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); background: rgba(255, 255, 255, 0.97); }
 .map-card-icon {
-  flex: 0 0 auto; width: 46px; height: 46px; border-radius: 13px;
+  flex: 0 0 auto; width: 44px; height: 44px; border-radius: 13px;
   display: grid; place-items: center;
   background: rgba(0, 135, 68, 0.1); color: var(--green-dark);
 }
-.map-card-icon svg { width: 22px; height: 22px; }
-.map-card-link b { display: block; font-family: var(--font-head); font-size: 15.5px; color: var(--navy); }
-.map-card-link span { font-size: 13.5px; color: var(--slate-500); }
-.map-card-arrow { width: 18px; height: 18px; margin-left: auto; color: var(--slate-400); transition: transform 0.3s var(--ease-out), color 0.3s ease; }
-.map-card:hover .map-card-arrow { color: var(--green); transform: translate(3px, -3px); }
+.map-card-icon svg { width: 21px; height: 21px; }
+.map-band-link b { display: block; font-family: var(--font-head); font-size: 15px; color: var(--navy); }
+.map-band-link span { font-size: 13px; color: var(--slate-500); }
+.map-card-arrow { width: 18px; height: 18px; margin-left: 6px; flex: 0 0 auto; color: var(--slate-400); transition: transform 0.3s var(--ease-out), color 0.3s ease; }
+.map-band-link:hover .map-card-arrow { color: var(--green); transform: translate(3px, -3px); }
 
 /* ==========================================================================
    FOOTER
@@ -1131,6 +1138,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 
   .form { padding: 24px 20px; }
   .form-row { grid-template-columns: 1fr; gap: 0; }
+
+  .map-band { height: 260px; margin-top: 20px; }
+  .map-band-link { left: 14px; bottom: 14px; right: 14px; max-width: none; padding: 12px 14px; gap: 12px; }
+  .map-band-link span { display: none; }
 
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; padding: 56px 0 44px; }
   .whats-float { right: 18px; bottom: 18px; width: 56px; height: 56px; }
