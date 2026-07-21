@@ -939,23 +939,40 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .cnpj { margin-top: 22px; padding-top: 18px; border-top: 1px dashed var(--slate-200); font-size: 13px; color: var(--slate-500); line-height: 1.5; }
 
 .map-card {
-  display: flex; align-items: center; gap: 16px;
   background: #fff;
   border: 1px solid var(--slate-200);
   border-radius: var(--radius);
-  padding: 20px 24px;
+  overflow: hidden;
   box-shadow: var(--shadow-sm);
   transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, border-color 0.4s ease;
 }
 .map-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(0, 135, 68, 0.35); }
+
+.map-embed {
+  position: relative;
+  height: 190px;
+  background: var(--slate-100);
+}
+.map-embed iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+  filter: grayscale(0.2) contrast(1.04);
+  transition: filter 0.4s ease;
+}
+.map-card:hover .map-embed iframe { filter: grayscale(0); }
+
+.map-card-link {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 24px;
+  border-top: 1px solid var(--slate-100);
+}
 .map-card-icon {
   flex: 0 0 auto; width: 46px; height: 46px; border-radius: 13px;
   display: grid; place-items: center;
   background: rgba(0, 135, 68, 0.1); color: var(--green-dark);
 }
 .map-card-icon svg { width: 22px; height: 22px; }
-.map-card b { display: block; font-family: var(--font-head); font-size: 15.5px; color: var(--navy); }
-.map-card span { font-size: 13.5px; color: var(--slate-500); }
+.map-card-link b { display: block; font-family: var(--font-head); font-size: 15.5px; color: var(--navy); }
+.map-card-link span { font-size: 13.5px; color: var(--slate-500); }
 .map-card-arrow { width: 18px; height: 18px; margin-left: auto; color: var(--slate-400); transition: transform 0.3s var(--ease-out), color 0.3s ease; }
 .map-card:hover .map-card-arrow { color: var(--green); transform: translate(3px, -3px); }
 
