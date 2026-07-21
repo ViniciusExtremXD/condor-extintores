@@ -85,6 +85,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   display: flex; align-items: center;
   position: relative; z-index: 60;
 }
+/* A barra é uma faixa sólida e fina: em telas bem largas, limitar o conteúdo
+   a 1200px (como o resto do site) deixa um vão vazio enorme nas pontas, que
+   parece quebrado. Uma barra de topo deve acompanhar a largura real da tela. */
+.topbar .container { width: calc(100% - 48px); }
 .topbar-inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; padding-block: 6px; flex-wrap: wrap;
