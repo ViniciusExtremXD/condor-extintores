@@ -46,7 +46,10 @@
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
+/* Reserva o espaço da barra de rolagem sempre (mesmo quando o SO usa
+   scrollbar "sobreposta"/automática), pra ela nunca aparecer/sumir e
+   fazer o conteúdo colado na borda (barra superior) tremer. */
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); scrollbar-gutter: stable; }
 body {
   font-family: var(--font-body);
   color: var(--navy-800);
