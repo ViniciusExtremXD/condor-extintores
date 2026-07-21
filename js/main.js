@@ -292,6 +292,44 @@
       el.dataset.revealDelay = String(i * 90);
     });
   });
+
+  /* ---------- Aparição de letras: títulos entram palavra a palavra ---------- */
+  // Preserva <em> (gradiente) e <br> — cada palavra vira um <span class="rw">
+  // que entra em cascata via --wi + transition-delay no CSS.
+  if (!prefersReducedMotion) {
+    document.querySelectorAll('.section-title, .avcb-copy h3, .cta-band h2').forEach(title => {
+      let wi = 0;
+      const frag = document.createDocumentFragment();
+      Array.from(title.childNodes).forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          node.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (!part.trim()) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span');
+            w.className = 'rw';
+            w.style.setProperty('--wi', wi++);
+            w.textContent = part;
+            frag.appendChild(w);
+          });
+        } else if (node.nodeName === 'BR') {
+          frag.appendChild(node.cloneNode());
+        } else if (node.nodeName === 'EM') {
+          const w = document.createElement('span');
+          w.className = 'rw';
+          w.style.setProperty('--wi', wi++);
+          w.appendChild(node.cloneNode(true));
+          frag.appendChild(w);
+        } else {
+          frag.appendChild(node.cloneNode(true));
+        }
+      });
+      title.textContent = '';
+      title.appendChild(frag);
+      title.classList.add('split');
+      if (!title.classList.contains('reveal')) revealObserver.observe(title);
+    });
+  }
+
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
   /* ---------- Contadores ---------- */

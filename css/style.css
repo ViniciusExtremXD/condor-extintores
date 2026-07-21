@@ -166,6 +166,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
    BOTÕES
    ========================================================================== */
 .btn {
+  position: relative; overflow: hidden;
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   padding: 13px 24px; border-radius: 999px;
   font-family: var(--font-head); font-weight: 700; font-size: 15px;
@@ -173,7 +174,18 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   transition: transform 0.3s var(--ease-spring), box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
   will-change: transform;
 }
+/* Varredura de brilho ao passar o mouse */
+.btn::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -140%;
+  width: 55%; z-index: 0; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.38), transparent);
+  transform: skewX(-20deg);
+}
+.btn:hover::after { animation: btnSheen 0.85s var(--ease-out); }
+@keyframes btnSheen { from { left: -140%; } to { left: 170%; } }
+.btn > * { position: relative; z-index: 1; }
 .btn svg { width: 18px; height: 18px; flex: 0 0 auto; transition: transform 0.3s var(--ease-out); }
+.btn:active { transform: scale(0.96); }
 .btn:hover svg:last-child { transform: translateX(4px); }
 .btn-lg { padding: 17px 32px; font-size: 16px; }
 
@@ -461,7 +473,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .section-kicker::before {
   content: ""; width: 30px; height: 2px; border-radius: 2px;
   background: linear-gradient(90deg, var(--green), var(--green-light));
+  transform-origin: left; transition: width 0.6s var(--ease-out) 0.15s;
 }
+.section-kicker.reveal::before { width: 0; }
+.section-kicker.reveal.is-visible::before { width: 30px; }
 .section-title {
   font-size: clamp(28px, 3.6vw, 44px);
   font-weight: 800; letter-spacing: -0.02em;
@@ -489,6 +504,25 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   transition-delay: var(--reveal-delay, 0s);
 }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* Variantes de reveal — direção/escala para dar variedade ao scroll */
+.reveal-scale { transform: scale(0.93); }
+.reveal-l { transform: translateX(-46px); }
+.reveal-r { transform: translateX(46px); }
+.reveal-scale.is-visible, .reveal-l.is-visible, .reveal-r.is-visible { transform: none; }
+
+/* Aparição de letras — cada palavra do título entra em cascata */
+.split { opacity: 1 !important; transform: none !important; }
+.split .rw {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.62em);
+  transition: opacity 0.5s var(--ease-out), transform 0.7s var(--ease-out);
+  transition-delay: calc(var(--wi, 0) * 0.05s);
+  will-change: opacity, transform;
+}
+.split .rw > em { display: inline-block; }
+.split.is-visible .rw { opacity: 1; transform: none; }
 
 /* Cartões com glow que segue o mouse */
 .glow-card { position: relative; overflow: hidden; }
@@ -1104,7 +1138,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
     transition-duration: 0.01ms !important;
   }
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; }
+  .reveal, .reveal-scale, .reveal-l, .reveal-r { opacity: 1; transform: none; }
+  .split .rw { opacity: 1; transform: none; }
+  .section-kicker.reveal::before { width: 30px; }
   .h-line > span { transform: none; }
   .slide-kicker, .slide-text, .slide-ctas { opacity: 1; transform: none; }
   .hero-embers { display: none; }
@@ -1117,7 +1153,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   transition-duration: 0.01ms !important;
 }
 .motion-off { scroll-behavior: auto; }
-.motion-off .reveal { opacity: 1; transform: none; }
+.motion-off .reveal, .motion-off .reveal-scale, .motion-off .reveal-l, .motion-off .reveal-r { opacity: 1; transform: none; }
+.motion-off .split .rw { opacity: 1; transform: none; }
+.motion-off .section-kicker.reveal::before { width: 30px; }
 .motion-off .h-line > span { transform: none; }
 .motion-off .slide-kicker, .motion-off .slide-text, .motion-off .slide-ctas { opacity: 1; transform: none; }
 .motion-off .hero-embers { display: none; }
