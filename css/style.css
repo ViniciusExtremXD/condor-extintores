@@ -1131,7 +1131,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
    ========================================================================== */
 @media (max-width: 1080px) {
   .nav {
-    position: fixed; inset: 0; z-index: 99;
+    /* z-index bem acima de tudo (header:100, scroll-progress:1002,
+       form-success:2000) — o menu nunca pode abrir "por baixo" de outra
+       camada da página, senão o texto fica ilegível sobre o conteúdo. */
+    position: fixed; inset: 0; z-index: 5000;
     flex-direction: column; justify-content: center; align-items: center; gap: 6px;
     background: rgba(15, 23, 42, 0.97);
     -webkit-backdrop-filter: blur(16px);
@@ -1156,7 +1159,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   .nav.is-open .nav-link:nth-child(7) { transition-delay: 0.38s; }
   .nav-link::after { display: none; }
   .nav-link:hover, .nav-link.is-active { color: #4ade80; background: none; }
-  .nav-toggle { display: flex; position: relative; z-index: 101; }
+  .nav-toggle { display: flex; position: relative; z-index: 5001; }
 }
 
 /* ==========================================================================
