@@ -569,8 +569,11 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   display: block;
   font-family: var(--font-head); font-weight: 800;
   font-size: clamp(26px, 2.6vw, 36px);
-  color: var(--navy); line-height: 1.1;
+  color: var(--navy); line-height: 1.15;
 }
+/* Estatísticas sem número (texto curto tipo "Frota própria") usam um
+   tamanho menor — o clamp grande foi pensado pra números de 1-4 dígitos */
+.stats b:not([data-count]) { font-size: clamp(16.5px, 1.6vw, 19px); }
 .stats span { font-size: 13px; color: var(--slate-500); }
 
 .empresa-photo {

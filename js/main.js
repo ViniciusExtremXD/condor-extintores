@@ -372,14 +372,15 @@
       const el = entry.target;
       counterObserver.unobserve(el);
       const target = parseInt(el.dataset.count, 10);
+      const prefix = el.dataset.prefix || '';
       const suffix = el.dataset.suffix || '';
-      if (prefersReducedMotion) { el.textContent = target + suffix; return; }
+      if (prefersReducedMotion) { el.textContent = prefix + target + suffix; return; }
       const dur = 1600;
       const start = performance.now();
       (function step(now) {
         const p = Math.min((now - start) / dur, 1);
         const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.round(target * eased) + suffix;
+        el.textContent = prefix + Math.round(target * eased) + suffix;
         if (p < 1) requestAnimationFrame(step);
       })(start);
     });
