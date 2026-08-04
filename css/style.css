@@ -722,6 +722,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   border: 1px solid var(--slate-200);
   border-radius: var(--radius);
   padding: 30px 26px;
+  display: flex; flex-direction: column;
   transition: transform 0.45s var(--ease-out), box-shadow 0.45s ease, border-color 0.45s ease,
               opacity 0.8s var(--ease-out);
 }
@@ -736,7 +737,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .servico:hover .servico-icon { transform: scale(1.1) rotate(4deg); background: var(--green); color: #fff; }
 .servico-icon svg { width: 25px; height: 25px; }
 .servico h3 { font-size: 17.5px; margin-bottom: 10px; }
-.servico p { font-size: 14.5px; color: var(--slate-600); }
+.servico p { font-size: 14.5px; color: var(--slate-600); flex: 1; }
 
 /* ==========================================================================
    PRODUTOS
