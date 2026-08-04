@@ -443,6 +443,26 @@
 
   const formError = document.getElementById('formError');
 
+  // Confirmação de envio: aparece por ~2s e some sozinha. O window.open do
+  // WhatsApp continua síncrono dentro do handler de submit (senão o navegador
+  // trata como pop-up bloqueado) — a animação só decora por cima, sem atrasar
+  // a abertura real do WhatsApp.
+  const formSuccess = document.getElementById('formSuccess');
+  let successHideTimer = null;
+  let successCleanupTimer = null;
+
+  function showFormSuccess() {
+    clearTimeout(successHideTimer);
+    clearTimeout(successCleanupTimer);
+    formSuccess.hidden = false;
+    void formSuccess.offsetWidth; // força reflow para garantir a transição de entrada
+    formSuccess.classList.add('is-visible');
+    successHideTimer = setTimeout(() => {
+      formSuccess.classList.remove('is-visible');
+      successCleanupTimer = setTimeout(() => { formSuccess.hidden = true; }, prefersReducedMotion ? 0 : 450);
+    }, 2000);
+  }
+
   form.addEventListener('submit', e => {
     e.preventDefault();
     let firstInvalid = null;
@@ -483,6 +503,7 @@
     ].filter(Boolean).join('\n');
 
     window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(texto)}`, '_blank', 'noopener');
+    showFormSuccess();
   });
 
   form.querySelectorAll('input, select, textarea').forEach(input => {

@@ -1046,6 +1046,56 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 }
 
 /* ==========================================================================
+   CONFIRMAÇÃO DE ENVIO DO FORMULÁRIO
+   ========================================================================== */
+.form-success {
+  position: fixed; inset: 0; z-index: 2000;
+  display: grid; place-items: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0);
+  -webkit-backdrop-filter: blur(0px);
+  backdrop-filter: blur(0px);
+  pointer-events: none;
+  transition: background 0.4s var(--ease-out), backdrop-filter 0.4s var(--ease-out);
+}
+.form-success[hidden] { display: none; }
+.form-success.is-visible {
+  background: rgba(15, 23, 42, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  pointer-events: auto;
+}
+.form-success-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 46px 38px;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transform: scale(0.7);
+  opacity: 0;
+  transition: transform 0.5s var(--ease-spring), opacity 0.35s var(--ease-out);
+}
+.form-success.is-visible .form-success-card { transform: scale(1); opacity: 1; }
+
+.form-success-check { width: 84px; height: 84px; margin: 0 auto 22px; }
+.fsc-circle {
+  stroke: var(--green); stroke-width: 3;
+  stroke-dasharray: 152; stroke-dashoffset: 152;
+  transition: stroke-dashoffset 0.5s var(--ease-out) 0.1s;
+}
+.fsc-check {
+  stroke: var(--green); stroke-width: 4;
+  stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 40; stroke-dashoffset: 40;
+  transition: stroke-dashoffset 0.4s var(--ease-out) 0.5s;
+}
+.form-success.is-visible .fsc-circle { stroke-dashoffset: 0; }
+.form-success.is-visible .fsc-check { stroke-dashoffset: 0; }
+
+.form-success-msg { font-size: 15.5px; color: var(--slate-600); line-height: 1.55; }
+
+/* ==========================================================================
    WHATSAPP FLUTUANTE
    ========================================================================== */
 .whats-float {
