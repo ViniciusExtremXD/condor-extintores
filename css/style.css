@@ -353,7 +353,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;
 }
-.h-line { display: block; overflow: hidden; }
+/* padding-bottom compensa a caixa apertada (overflow:hidden da animação de
+   entrada) para não cortar a "perna" de letras como g/p/j — a margin
+   negativa cancela o espaço extra pra não afastar a linha seguinte */
+.h-line { display: block; overflow: hidden; padding-bottom: 0.16em; margin-bottom: -0.16em; }
 .h-line > span {
   display: block;
   transform: translateY(112%);
