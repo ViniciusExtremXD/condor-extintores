@@ -438,6 +438,19 @@
     });
   });
 
+  // Links como "AVCB ou CLCB?" no hero apontam para uma pergunta específica
+  // do FAQ (ex.: #faq-avcb-clcb) — sem isso, o clique só rolava até o topo
+  // da seção e o accordion continuava fechado.
+  function openFaqFromHash() {
+    const item = document.getElementById(location.hash.slice(1));
+    if (item && item.classList.contains('faq-item') && !item.open) {
+      const summary = item.querySelector('summary');
+      if (summary) summary.click();
+    }
+  }
+  window.addEventListener('hashchange', openFaqFromHash);
+  openFaqFromHash();
+
   /* ---------- Formulário → WhatsApp ---------- */
   const form = document.getElementById('quoteForm');
   const WHATS = '5519974042095';

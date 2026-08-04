@@ -362,6 +362,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .slide.is-active .h-line:nth-child(1) > span { animation-delay: 0.15s; }
 .slide.is-active .h-line:nth-child(2) > span { animation-delay: 0.27s; }
 .slide.is-active .h-line:nth-child(3) > span { animation-delay: 0.39s; }
+.slide.is-active .h-line:nth-child(4) > span { animation-delay: 0.51s; }
 .slide.is-active .slide-kicker { animation: fadeUp 0.7s var(--ease-out) 0.1s forwards; }
 .slide.is-active .slide-text { animation: fadeUp 0.8s var(--ease-out) 0.55s forwards; }
 .slide.is-active .slide-ctas { animation: fadeUp 0.8s var(--ease-out) 0.7s forwards; }
@@ -468,7 +469,8 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   padding-inline: 32px;
 }
 .marquee-track img {
-  height: 44px; width: auto;
+  height: 44px; width: 130px;
+  object-fit: contain; object-position: center;
   filter: grayscale(1); opacity: 0.6;
   transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s var(--ease-spring);
 }
@@ -1201,7 +1203,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   .hero-dots { gap: 20px; }
 
   .marquee-track { gap: 40px; }
-  .marquee-track img { height: 34px; }
+  .marquee-track img { height: 34px; width: 100px; }
 
   .stats { grid-template-columns: repeat(2, 1fr); gap: 22px; }
   .avcb-card { padding: 30px 22px; }
