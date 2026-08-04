@@ -597,28 +597,29 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .empresa-photo figcaption span { font-size: 13.5px; color: #cbd5e1; }
 
 .beneficios-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
 }
 .beneficio {
   background: #fff;
   border: 1px solid var(--slate-200);
+  border-top: 3px solid var(--green);
   border-radius: var(--radius);
-  padding: 30px 26px;
+  padding: 38px 32px;
   display: flex; flex-direction: column;
   transition: transform 0.45s var(--ease-out), box-shadow 0.45s ease, border-color 0.45s ease,
               opacity 0.8s var(--ease-out);
 }
-.beneficio:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: rgba(0, 135, 68, 0.35); }
+.beneficio:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: rgba(0, 135, 68, 0.35); border-top-color: var(--green); }
 
 /* Selo de certificação: anel tracejado (como um carimbo oficial), não um
    quadrado de ícone genérico — reforça credencial real, não decoração. */
 .beneficio-icon {
   position: relative;
-  width: 54px; height: 54px; border-radius: 50%;
+  width: 62px; height: 62px; border-radius: 50%;
   display: grid; place-items: center;
   background: linear-gradient(135deg, var(--navy), var(--navy-800));
   color: #4ade80;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
   transition: transform 0.4s var(--ease-spring);
 }
 .beneficio-icon::before {
@@ -630,9 +631,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 }
 .beneficio:hover .beneficio-icon { transform: scale(1.08); }
 .beneficio:hover .beneficio-icon::before { transform: rotate(24deg); }
-.beneficio-icon svg { width: 24px; height: 24px; }
-.beneficio h3 { font-size: 17.5px; margin-bottom: 10px; }
-.beneficio p { font-size: 14.5px; color: var(--slate-600); flex: 1; }
+.beneficio-icon svg { width: 27px; height: 27px; }
+.beneficio h3 { font-size: 19.5px; margin-bottom: 12px; }
+.beneficio p { font-size: 15px; color: var(--slate-600); flex: 1; }
 
 /* Tag de "prova" real (número de registro, norma, CNPJ) — estilo etiqueta
    de certificado, não um badge de marketing. */
