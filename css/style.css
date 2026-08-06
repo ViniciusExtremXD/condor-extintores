@@ -1021,10 +1021,14 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
   gap: 48px;
   padding: 72px 0 56px;
 }
+/* min-width:0 é necessário pro item do grid poder encolher — sem isso, o
+   card da logo (com o selo "Desde 1992") força a coluna a ficar larga
+   demais e o conteúdo vaza por cima da coluna "Navegação" ao lado */
+.footer-brand { min-width: 0; }
 .footer-logo {
-  display: inline-flex; align-items: center; gap: 14px;
+  display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
   background: #fff; border-radius: 12px; padding: 10px 16px;
-  margin-bottom: 18px;
+  margin-bottom: 18px; max-width: 100%;
 }
 .footer-logo img { height: 44px; width: auto; }
 .footer-brand p { font-size: 14.5px; max-width: 300px; }
