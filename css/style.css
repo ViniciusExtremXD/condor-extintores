@@ -827,12 +827,9 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 .produto-link svg { width: 16px; height: 16px; transition: transform 0.3s var(--ease-out); }
 .produto-link:hover svg { transform: translateX(5px); }
 
-.produtos-note {
-  text-align: center; margin-top: 34px;
-  font-size: 15px; color: var(--slate-600);
-}
-.produtos-note a { color: var(--green-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
-.produtos-note a:hover { color: var(--green); }
+.produtos-note { text-align: center; margin-top: 34px; }
+.produtos-note h3 { font-size: 21px; margin-bottom: 8px; }
+.produtos-note p { font-size: 15px; color: var(--slate-600); max-width: 460px; margin: 0 auto 22px; }
 
 /* ==========================================================================
    CTA BAND
