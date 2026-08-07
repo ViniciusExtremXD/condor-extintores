@@ -1055,6 +1055,10 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.15; color: var(--
 }
 .footer-col a:hover { color: #4ade80; transform: translateX(4px); }
 .footer-col p { font-size: 14px; color: #94a3b8; margin-top: 10px; }
+.footer-horario {
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+}
 
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
